@@ -18,101 +18,40 @@
     "iso_checksum": "4f65bd131a7a60007b238bcb750492eef515248a",
     "iso_checksum_type": "sha1"
   },
-  "builders": [{
-    "vm_name": "debian77-i386",
-    "type": "vmware-iso",
-    "guest_os_type": "debian7",
-    "http_directory": "http",
-    "iso_url": "{{user `iso_url`}}",
-    "iso_checksum": "{{user `iso_checksum`}}",
-    "iso_checksum_type": "{{user `iso_checksum_type`}}",
-    "ssh_username": "{{ user `ssh_username` }}",
-    "ssh_password": "{{ user `ssh_password` }}",
-    "ssh_wait_timeout": "10000s",
-    "tools_upload_flavor": "linux",
-    "boot_command": [
-      "<esc><wait>",
-      "install",
-      " auto",
-      " url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg",
-      " debian-installer=en_US",
-      " locale=en_US",
-      " keymap=us",
-      " netcfg/get_hostname=vagrant",
-      " netcfg/get_domain=vm ",
-      "<enter>"
-    ],
-    "shutdown_command": "echo 'vagrant'|sudo -S shutdown -h now",
-    "disk_size": 10140,
-    "vmx_data": {
-      "memsize": "512",
-      "numvcpus": "1"
-    }
-  },
-  {
-    "vm_name": "debian77-i386",
-    "type": "virtualbox-iso",
-    "http_directory": "http",
-    "iso_url": "{{user `iso_url`}}",
-    "iso_checksum": "{{user `iso_checksum`}}",
-    "iso_checksum_type": "{{user `iso_checksum_type`}}",
-    "guest_os_type": "Debian",
-    "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
-    "virtualbox_version_file": ".vbox_version",
-    "ssh_username": "{{ user `ssh_username` }}",
-    "ssh_password": "{{ user `ssh_password` }}",
-    "ssh_wait_timeout": "10000s",
-    "boot_command": [
-      "<esc><wait>",
-      "install",
-      " auto",
-      " url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg",
-      " debian-installer=en_US",
-      " locale=en_US",
-      " keymap=us",
-      " netcfg/get_hostname=vagrant",
-      " netcfg/get_domain=vm ",
-      "<enter>"
-    ],
-    "shutdown_command": "echo 'vagrant'|sudo -S shutdown -h now",
-    "disk_size": 10140,
-    "vboxmanage": [
-      ["modifyvm", "{{.Name}}", "--memory", "512"],
-      ["modifyvm", "{{.Name}}", "--cpus", "1"]
-    ]
-  },
-  {
-    "vm_name": "debian77-i386",
-    "type": "parallels-iso",
-    "http_directory": "http",
-    "iso_url": "{{user `iso_url`}}",
-    "iso_checksum": "{{user `iso_checksum`}}",
-    "iso_checksum_type": "{{user `iso_checksum_type`}}",
-    "parallels_tools_flavor": "lin",
-    "guest_os_type": "debian",
-    "prlctl_version_file": ".prlctl_version",
-    "ssh_username": "{{ user `ssh_username` }}",
-    "ssh_password": "{{ user `ssh_password` }}",
-    "ssh_wait_timeout": "10000s",
-    "boot_command": [
-      "<esc><wait>",
-      "install",
-      " auto",
-      " url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg",
-      " debian-installer=en_US",
-      " locale=en_US",
-      " keymap=us",
-      " netcfg/get_hostname=vagrant",
-      " netcfg/get_domain=vm ",
-      "<enter>"
-    ],
-    "shutdown_command": "echo 'vagrant'|sudo -S shutdown -h now",
-    "disk_size": 10140,
-    "prlctl": [
-      ["set", "{{.Name}}", "--memsize", "512"],
-      ["set", "{{.Name}}", "--cpus", "1"]
-    ]
-  }],
+  "builders": [
+      {
+        "vm_name": "debian77-i386",
+        "type": "virtualbox-iso",
+        "http_directory": "http",
+        "iso_url": "{{user `iso_url`}}",
+        "iso_checksum": "{{user `iso_checksum`}}",
+        "iso_checksum_type": "{{user `iso_checksum_type`}}",
+        "guest_os_type": "Debian",
+        "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+        "virtualbox_version_file": ".vbox_version",
+        "ssh_username": "{{ user `ssh_username` }}",
+        "ssh_password": "{{ user `ssh_password` }}",
+        "ssh_wait_timeout": "10000s",
+        "boot_command": [
+          "<esc><wait>",
+          "install",
+          " auto",
+          " url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg",
+          " debian-installer=en_GB",
+          " locale=en_GB",
+          " keymap=gb",
+          " netcfg/get_hostname=vagrant",
+          " netcfg/get_domain=vm ",
+          "<enter>"
+        ],
+        "shutdown_command": "echo 'vagrant'|sudo -S shutdown -h now",
+        "disk_size": 10140,
+        "vboxmanage": [
+          ["modifyvm", "{{.Name}}", "--memory", "512"],
+          ["modifyvm", "{{.Name}}", "--cpus", "1"]
+        ]
+      }
+  ],
   "provisioners": [{
     "type": "shell",
     "environment_vars": [
@@ -135,9 +74,7 @@
       "script/update.sh",
       "script/vagrant.sh",
       "script/vmtool.sh",
-      "script/cmtool.sh",
-      "script/minimize.sh",
-      "script/cleanup.sh"
+      "script/cmtool.sh"
     ]
   }],
   "post-processors": [{
